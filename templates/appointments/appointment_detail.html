@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Деталі запису - Psycho Hospital{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1.5rem;">
+    <a href="{% url 'appointments:appointment_list' %}" style="text-decoration: none; color: var(--text-muted);">
+        ← Повернутися до списку
+    </a>
+</div>
+
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <h2 style="margin-top: 0; color: var(--primary); border-bottom: 1px solid #E5E7EB; padding-bottom: 1rem;">
+        Деталі прийому: {{ appointment.patient_full_name }}
+    </h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+        <div>
+            <h4 style="color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 0;">Інформація про пацієнта</h4>
+            <p style="margin: 0.25rem 0;"><strong>ПІБ:</strong> {{ appointment.patient_full_name }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Дата народження:</strong> {{ appointment.patient_birth_date|date:"d.m.Y" }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Телефон:</strong> {{ appointment.patient_phone }}</p>
+        </div>
+        
+        <div>
+            <h4 style="color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 0;">Інформація про прийом</h4>
+            <p style="margin: 0.25rem 0;"><strong>Дата та час:</strong> {{ appointment.appointment_date|date:"d.m.Y H:i" }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Лікар:</strong> <a href="{% url 'doctors:doctor_list' %}" style="color: var(--primary); text-decoration: none;">{{ appointment.doctor.full_name }} ({{ appointment.doctor.specialization }})</a></p>
+            <p style="margin: 0.25rem 0;"><strong>Діагноз:</strong> <span style="background-color: #FEF3C7; color: #92400E; padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 500;">{{ appointment.diagnosis }}</span></p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #E5E7EB;">
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 0;">Скарги</h4>
+        <p style="white-space: pre-wrap; background-color: var(--bg-color); padding: 1rem; border-radius: 6px;">{{ appointment.complaints }}</p>
+        
+        <h4 style="color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 1.5rem;">Призначене лікування</h4>
+        <p style="white-space: pre-wrap; background-color: #EFF6FF; padding: 1rem; border-radius: 6px; border-left: 4px solid var(--primary);">{{ appointment.treatment_description }}</p>
+    </div>
+</div>
+{% endblock %}

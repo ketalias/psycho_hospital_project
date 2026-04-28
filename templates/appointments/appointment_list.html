@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Записи пацієнтів - Psycho Hospital{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <h1 class="page-title" style="margin-bottom: 0;">Записи пацієнтів</h1>
+    
+    <form method="get" style="display: flex; gap: 0.5rem;">
+        <input type="text" name="diagnosis" value="{{ request.GET.diagnosis }}" placeholder="Пошук за діагнозом..." 
+               style="padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 6px; outline: none;">
+        <button type="submit" class="btn">Фільтрувати</button>
+        {% if request.GET.diagnosis %}
+            <a href="{% url 'appointments:appointment_list' %}" class="btn" style="background-color: #6B7280;">Скинути</a>
+        {% endif %}
+    </form>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+    {% for appointment in appointments %}
+    <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 style="margin: 0 0 0.5rem 0; color: var(--primary);">{{ appointment.patient_full_name }}</h3>
+            <div style="color: var(--text-muted); font-size: 0.9rem; display: flex; gap: 1.5rem;">
+                <span>📅 {{ appointment.appointment_date|date:"d.m.Y H:i" }}</span>
+                <span>👨‍⚕️ {{ appointment.doctor.full_name }}</span>
+                <span>📋 {{ appointment.diagnosis }}</span>
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'appointments:appointment_detail' appointment.pk %}" class="btn">Детальніше</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>Записів не знайдено.</p>
+    {% endfor %}
+</div>
+{% endblock %}
