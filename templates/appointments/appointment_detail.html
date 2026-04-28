@@ -14,7 +14,7 @@
         <h2 style="margin: 0; color: var(--primary);">
             Деталі прийому: {{ appointment.patient_full_name }}
         </h2>
-        {% if user.is_authenticated %}
+        {% if perms.appointments.change_appointment %}
             <a href="{% url 'appointments:appointment_edit' appointment.pk %}" class="btn" style="background-color: #F59E0B; padding: 0.25rem 0.75rem; font-size: 0.875rem;">Редагувати</a>
         {% endif %}
     </div>

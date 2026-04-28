@@ -5,18 +5,26 @@
 {% block content %}
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
     <h1 class="page-title" style="margin-bottom: 0;">Записи пацієнтів</h1>
-    {% if user.is_authenticated %}
-        <a href="{% url 'appointments:appointment_add' %}" class="btn" style="background-color: #10B981;">+ Новий запис</a>
-    {% endif %}
+    <a href="{% url 'appointments:appointment_add' %}" class="btn" style="background-color: #10B981;">+ Новий запис</a>
 </div>
 
+{% if request.session.last_viewed_appointment %}
+<div style="background-color: #E0F2FE; border: 1px solid #BAE6FD; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+    <span style="color: #0369A1; font-weight: 500;">Останній переглянутий запис: </span>
+    <a href="{% url 'appointments:appointment_detail' request.session.last_viewed_appointment.id %}" style="color: #0284C7; text-decoration: none; font-weight: 600;">
+        {{ request.session.last_viewed_appointment.name }}
+    </a>
+</div>
+{% endif %}
+
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-    <form method="get" style="display: flex; gap: 0.5rem;">
-        <input type="text" name="diagnosis" value="{{ request.GET.diagnosis }}" placeholder="Пошук за діагнозом..." 
+    <form method="get" style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" name="diagnosis" value="{{ current_diagnosis_filter }}" placeholder="Пошук за діагнозом..." 
                style="padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 6px; outline: none;">
         <button type="submit" class="btn">Фільтрувати</button>
-        {% if request.GET.diagnosis %}
-            <a href="{% url 'appointments:appointment_list' %}" class="btn" style="background-color: #6B7280;">Скинути</a>
+        {% if current_diagnosis_filter %}
+            <a href="{% url 'appointments:appointment_list' %}?diagnosis=" class="btn" style="background-color: #6B7280;">Скинути</a>
+            <span style="margin-left: 1rem; color: var(--text-muted); font-size: 0.875rem;">(Застосовано збережений фільтр)</span>
         {% endif %}
     </form>
 </div>
