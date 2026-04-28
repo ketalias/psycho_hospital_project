@@ -5,7 +5,12 @@
 {% block content %}
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
     <h1 class="page-title" style="margin-bottom: 0;">Записи пацієнтів</h1>
-    
+    {% if user.is_authenticated %}
+        <a href="{% url 'appointments:appointment_add' %}" class="btn" style="background-color: #10B981;">+ Новий запис</a>
+    {% endif %}
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
     <form method="get" style="display: flex; gap: 0.5rem;">
         <input type="text" name="diagnosis" value="{{ request.GET.diagnosis }}" placeholder="Пошук за діагнозом..." 
                style="padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 6px; outline: none;">

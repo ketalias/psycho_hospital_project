@@ -91,9 +91,18 @@
 
     <header>
         <a href="/" class="logo">Psycho Hospital</a>
-        <nav>
+        <nav style="display: flex; align-items: center; gap: 1.5rem;">
             <a href="{% url 'doctors:doctor_list' %}">Лікарі</a>
             <a href="{% url 'appointments:appointment_list' %}">Записи пацієнтів</a>
+            
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="margin: 0; padding: 0;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: var(--text-main); font-weight: 500; cursor: pointer; padding: 0; font-family: inherit; font-size: inherit;">Вийти ({{ user.username }})</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600;">Увійти</a>
+            {% endif %}
         </nav>
     </header>
 

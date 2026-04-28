@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Редагувати лікаря{% else %}Додати лікаря{% endif %} - Psycho Hospital
+{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1.5rem;">
+    <a href="{% url 'doctors:doctor_list' %}" style="text-decoration: none; color: var(--text-muted);">
+        ← Повернутися до списку лікарів
+    </a>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2 style="margin-top: 0; color: var(--primary);">
+        {% if object %}Редагування лікаря: {{ object.full_name }}{% else %}Додавання нового лікаря{% endif %}
+    </h2>
+
+    <form method="post" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: #DC2626; margin: 0.25rem 0 0 0; font-size: 0.875rem;">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" class="btn">Зберегти</button>
+            <a href="{% url 'doctors:doctor_list' %}" class="btn" style="background-color: #6B7280;">Скасувати</a>
+        </div>
+    </form>
+</div>
+<style>
+    .form-control {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #D1D5DB;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-family: inherit;
+        font-size: 1rem;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+</style>
+{% endblock %}

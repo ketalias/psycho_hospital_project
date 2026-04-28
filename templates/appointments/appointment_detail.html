@@ -10,9 +10,14 @@
 </div>
 
 <div class="card" style="max-width: 800px; margin: 0 auto;">
-    <h2 style="margin-top: 0; color: var(--primary); border-bottom: 1px solid #E5E7EB; padding-bottom: 1rem;">
-        Деталі прийому: {{ appointment.patient_full_name }}
-    </h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; padding-bottom: 1rem;">
+        <h2 style="margin: 0; color: var(--primary);">
+            Деталі прийому: {{ appointment.patient_full_name }}
+        </h2>
+        {% if user.is_authenticated %}
+            <a href="{% url 'appointments:appointment_edit' appointment.pk %}" class="btn" style="background-color: #F59E0B; padding: 0.25rem 0.75rem; font-size: 0.875rem;">Редагувати</a>
+        {% endif %}
+    </div>
     
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
         <div>

@@ -3,14 +3,26 @@
 {% block title %}Список лікарів - Psycho Hospital{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Наші лікарі</h1>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <h1 class="page-title" style="margin-bottom: 0;">Наші лікарі</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'doctors:doctor_add' %}" class="btn" style="background-color: #10B981;">+ Додати лікаря</a>
+    {% endif %}
+</div>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
     {% for doctor in doctors %}
-    <div class="card">
-        <h3 style="margin-top: 0; color: var(--primary);">{{ doctor.full_name }}</h3>
-        <p><strong>Спеціалізація:</strong> {{ doctor.specialization }}</p>
-        <p><strong>Стаж роботи:</strong> {{ doctor.years_of_experience }} років</p>
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <h3 style="margin-top: 0; color: var(--primary);">{{ doctor.full_name }}</h3>
+            <p><strong>Спеціалізація:</strong> {{ doctor.specialization }}</p>
+            <p><strong>Стаж роботи:</strong> {{ doctor.years_of_experience }} років</p>
+        </div>
+        {% if user.is_authenticated %}
+            <div style="margin-top: 1rem; border-top: 1px solid #E5E7EB; padding-top: 1rem;">
+                <a href="{% url 'doctors:doctor_edit' doctor.pk %}" class="btn" style="background-color: #F59E0B; padding: 0.25rem 0.75rem; font-size: 0.875rem;">Редагувати</a>
+            </div>
+        {% endif %}
     </div>
     {% empty %}
     <p>Наразі немає лікарів у базі.</p>
